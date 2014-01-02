@@ -120,4 +120,51 @@ describe('MultiHash', function() {
     });
   });
   
+  describe('#add', function() {
+    
+    describe('objects containing different keys', function() {
+      var hash = new MultiHash();
+      hash.add({ foo: 'x' });
+      hash.add({ bar: 'y', baz: 'z' });
+      
+      it('should contain keys and values', function() {
+        expect(hash.length).to.equal(3);
+        expect(hash.keys()[0]).to.equal('foo');
+        expect(hash.values('foo')[0]).to.equal('x');
+        expect(hash.keys()[1]).to.equal('bar');
+        expect(hash.values('bar')[0]).to.equal('y');
+        expect(hash.keys()[2]).to.equal('baz');
+        expect(hash.values('baz')[0]).to.equal('z');
+      });
+    });
+    
+    describe('objects containing same keys', function() {
+      var hash = new MultiHash();
+      hash.add({ hello: 'bob' });
+      hash.add({ hello: 'joe' });
+      
+      it('should contain keys and values', function() {
+        expect(hash.length).to.equal(1);
+        expect(hash.keys()[0]).to.equal('hello');
+        expect(hash.values('hello')[0]).to.equal('bob');
+        expect(hash.values('hello')[1]).to.equal('joe');
+      });
+    });
+    
+    describe('null object', function() {
+      var hash = new MultiHash();
+      
+      it('should have length 1 after valid object', function() {
+        hash.add({ hello: 'bob' });
+        expect(hash.length).to.equal(1);
+      });
+      
+      it('should have length 1 after invalid object', function() {
+        hash.add(null);
+        expect(hash.length).to.equal(1);
+      });
+    });
+    
+  });
+  
 });
