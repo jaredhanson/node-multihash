@@ -12,9 +12,14 @@ describe('MultiHash', function() {
       expect(hash.length).to.equal(0);
     });
     
+    it('should not have keys', function() {
+      expect(hash.keys()).to.have.length(0);
+    });
+    
     it('should not have non-present key', function() {
       expect(hash.has('foo')).to.be.false;
       expect(hash.count('foo')).to.equal(0);
+      expect(hash.values('foo')).to.have.length(0);
     });
     
     it('should not yield any key-value pairs when iterating', function() {
@@ -36,9 +41,18 @@ describe('MultiHash', function() {
       expect(hash.length).to.equal(2);
     });
     
+    it('should have keys', function() {
+      var keys = hash.keys();
+      expect(keys).to.have.length(2);
+      expect(keys[0]).to.equal('hello');
+      expect(keys[1]).to.equal('foo');
+    });
+    
     it('should have present keys', function() {
       expect(hash.has('hello')).to.be.true;
       expect(hash.count('hello')).to.equal(1);
+      expect(hash.values('hello')).to.have.length(1);
+      expect(hash.values('hello')[0]).to.equal('world');
       
       expect(hash.has('foo')).to.be.true;
       expect(hash.count('foo')).to.equal(1);
@@ -67,9 +81,18 @@ describe('MultiHash', function() {
       expect(hash.length).to.equal(1);
     });
     
+    it('should have keys', function() {
+      var keys = hash.keys();
+      expect(keys).to.have.length(1);
+      expect(keys[0]).to.equal('foo');
+    });
+    
     it('should have present key', function() {
       expect(hash.has('foo')).to.be.true;
       expect(hash.count('foo')).to.equal(2);
+      expect(hash.values('foo')).to.have.length(2);
+      expect(hash.values('foo')[0]).to.equal('bar');
+      expect(hash.values('foo')[1]).to.equal('baz');
     });
     
     it('should yield key-value pairs when iterating', function() {
