@@ -167,4 +167,20 @@ describe('MultiHash', function() {
     
   });
   
+  describe('#del', function() {
+    var hash = new MultiHash();
+    hash.put('hello', 'world');
+    hash.put('foo', 'bar');
+    
+    it('should have correct length after adding keys', function() {
+      expect(hash.length).to.equal(2);
+    });
+    
+    it('should have correct length after deleting key', function() {
+      hash.del('hello');
+      expect(hash.length).to.equal(1);
+      expect(hash.values('foo')[0]).to.equal('bar');
+    });
+  });
+  
 });
